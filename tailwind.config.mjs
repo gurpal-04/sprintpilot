@@ -1,0 +1,250 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./app/globals.css",
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx,css}",
+  ],
+  theme: {
+    extend: {
+      backgroundImage: {
+        "gradient-100": "linear-gradient(180deg, #FFFBF0 0%, #FFEAF5 100%)",
+        "gradient-125": "linear-gradient(125deg, #FFE488 0%, #FABEF2 88%)",
+      },
+      colors: {
+        boxShadow: {
+          soft: "0.8px 1.6px 4px 0px rgba(0, 0, 0, 0.15)",
+          dashboardCard: "1.2px 2.4px 4px rgba(0, 0, 0, 0.15)",
+          medium: " 2.4px 4px 4px 0px rgba(0,0,0,0.15)",
+        },
+        error: {
+          200: "#FFC8A6",
+          500: "#FF4423",
+          600: "#DB2719",
+          700: "#B71112",
+        },
+        primary: {
+          0: "#FFFFFF",
+          50: "#FFFFFF",
+          100: "#E7DEFE",
+          150: "#EBE8F7",
+          160: "#EBE5FE",
+          180: "#DCD0FE",
+          200: "#CEBEFE",
+          300: "#B49DFE",
+          400: "#9F84FD",
+          500: "#7C5CFC",
+          550: "#5441bc",
+          600: "#5E43D8DF",
+          700: "#432EB5",
+          800: "#2D1D92",
+          900: "#1D1178",
+        },
+        newPrimary: {
+          0: "#FFFFFF",
+          100: "#F2EFFF",
+          180: "#EBE7FF",
+          200: "#D6CCFE",
+          300: "#B49DFE",
+          400: "#9F84FD",
+          500: "#7C5CFC",
+          550: "#7053E3",
+          600: "#4A3797",
+          650: "#382971",
+          700: "#2B2058",
+          800: "#1E163D",
+          850: "#110D24",
+          900: "#0A0714",
+        },
+        secondary: {
+          20: "#FEFEFE",
+          50: "#F9FAFB",
+          100: "#F3F5F7",
+          120: "#E7EEF8",
+          150: "#D2D2D2",
+          200: "#C3D4E9",
+          300: "#90A3BF",
+          400: "#596780",
+          450: "#4A566B",
+          500: "#1A202C",
+          600: "#131825",
+          700: "#0D121F",
+          800: "#080C19",
+          900: "#040815",
+        },
+        tertiary: {
+          50: "#F2F2FC",
+          100: "#E8E9FC",
+          200: "#DCDEFA",
+          300: "#B6BAF5",
+          400: "#1420DE",
+          500: "#121DC8",
+          600: "#101AB2",
+          700: "#0F18A7",
+          800: "#0C1385",
+          900: "#090E64",
+          1000: "#070B4E",
+          1100: "#03041F",
+        },
+        llm: {
+          100: "#F4EDFD",
+          200: "#EFE4FC",
+          300: "#DDC7F8",
+          320: "#B58BE8",
+          350: "#AB79E8",
+          380: "#A066E8",
+          400: "#914AE8",
+          500: "#8343D1",
+          600: "#743BBA",
+          700: "#6D38AE",
+          800: "#572C8B",
+          900: "#412168",
+          1000: "#331A51",
+          1100: "#26143D",
+          1120: "#473E52",
+          1150: "#433752",
+          1200: "#2A1F38",
+          1250: "#17111F",
+        },
+        danger: {
+          50: "#FFF7F7",
+          100: "#FFE7D3",
+          200: "#FFC8A6",
+          300: "#FFA37A",
+          400: "#FF7F59",
+          500: "#FF4423",
+          600: "#DB2719",
+          650: "#B20D1B",
+          700: "#B71112",
+          800: "#930B16",
+          900: "#7A0619",
+        },
+        black: {
+          50: "#F9FAFB",
+          100: "#F4F5F7",
+          200: "#E5E7EB",
+          300: "#D2D6DC",
+          400: "#9FA6B2",
+          500: "#111112",
+          600: "#475569",
+          700: "#334155",
+          800: "#1E293B",
+          900: "#0F172A",
+        },
+        warning: {
+          50: "#FFFAF8",
+          100: "#FFF8D7",
+          200: "#FFEFB0",
+          300: "#FFE488",
+          400: "#FFD96B",
+          500: "#FFC73A",
+          600: "#DBA32A",
+          700: "#B7821D",
+          800: "#936312",
+          900: "#7A4D0B",
+        },
+        info: {
+          50: "#F3FEFF",
+          100: "#DCF3FF",
+          200: "#BAE5FF",
+          300: "#98D3FF",
+          400: "#7EC2FF",
+          500: "#54A6FF",
+          600: "#3D81DB",
+          700: "#2A60B7",
+          800: "#1A4393",
+          900: "#102E7A",
+        },
+        success: {
+          50: "#F3FEF8",
+          100: "#F5FCD2",
+          200: "#E8FAA6",
+          300: "#D3F178",
+          400: "#BCE455",
+          500: "#9CD323",
+          600: "#7FB519",
+          700: "#659711",
+          800: "#4C7A0B",
+          900: "#3B6506",
+        },
+        gray: {
+          50: "#F9FAFB",
+          100: "#F3F5F7",
+          200: "#E5E7EB",
+          300: "#828282",
+          400: "#9FA6B2",
+          500: "#68768A",
+          600: "#475569",
+          700: "#334155",
+          800: "#1E293B",
+          900: "#0F172A",
+        },
+        neutral: {
+          50: "#F8F6FFE0",
+          100: "#D2D2D2",
+          300: "#999999",
+          400: "#9C9FA3",
+          900: "#585858",
+        },
+        error: {
+          200: "#FFC8A6",
+          400: "#FF7F59",
+          500: "#FF4423",
+          700: " #B71112",
+        },
+      },
+      fontFamily: {
+        inter: ["Plus Jakarta Sans", "sans-serif"],
+      },
+      fontSize: {
+        xxs: "0.625rem", // 10px / 16px = 0.625rem
+        xxxs: "0.6875rem", // 11px / 16px = 0.6875rem
+        xs: "0.75rem", // 12px / 16px = 0.75rem
+        sm: "0.875rem", // 14px / 16px = 0.875rem
+        base: "1rem", // 16px / 16px = 1rem
+        lg: "1.125rem", // 18px / 16px = 1.125rem
+        xl: "1.25rem", // 20px / 16px = 1.25rem
+        "2xl": "1.5rem", // 24px / 16px = 1.5rem
+        "3xl": "2rem", // 32px / 16px = 2rem
+        "4xl": "2.25rem", // 36px / 16px = 2.25rem
+        "5xl": "2.5rem", // 40px / 16px = 2.5rem
+        "6xl": "4.5rem", // 72px / 16px = 4.5rem
+        // Add more sizes as needed...
+      },
+      height: {
+        130: "32.5rem",
+        21: "5.25rem",
+      },
+      fontWeight: {
+        normal: 400,
+        medium: 500,
+        semibold: 600,
+        bold: 700,
+        extrabold: 800,
+        // Add more font weights as needed...
+      },
+      backgroundImage: {
+        "gradient-ai-125":
+          "linear-gradient(125deg, #FFE488 1.74%, #FABEF2 86.89%)",
+        "gradient-chat-125":
+          "linear-gradient(125deg, #E8ECFF 1.74%, #FFE1F4 98.51%)",
+        "gradient-text":
+          "linear-gradient(91deg, #1A0182 0.79%, #79015B 68.05%)",
+      },
+      boxShadow: {
+        "custom-light": "0.8px 1.6px 4px rgba(0, 0, 0, 0.15)",
+      },
+      keyframes: {
+        blink: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0" },
+        },
+      },
+      animation: {
+        blink: "blink 1s ease-in-out infinite",
+      },
+    },
+  },
+  plugins: [require("@tailwindcss/typography")],
+};

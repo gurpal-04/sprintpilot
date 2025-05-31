@@ -1,0 +1,48 @@
+{
+  "name": "inferno",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "dependencies": {
+    "@iconify/react": "^6.0.0",
+    "@reduxjs/toolkit": "^2.6.0",
+    "@tailwindcss/typography": "^0.5.16",
+    "framer-motion": "^12.15.0",
+    "js-cookie": "^3.0.5",
+    "lucide-react": "^0.511.0",
+    "next": "15.1.7",
+    "postcss": "^8",
+    "react": "^19.0.0",
+    "react-datepicker": "^8.3.0",
+    "react-doc-viewer": "^0.1.14",
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.54.2",
+    "react-hot-toast": "^2.5.2",
+    "react-redux": "^9.2.0",
+    "react-select": "^5.10.1",
+    "redux-persist": "^6.0.0",
+    "tailwindcss": "^3.4.1",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@types/node": "^22.15.29",
+    "@types/react": "^19.1.6",
+    "@types/react-dom": "^19.1.5",
+    "eslint": "^9",
+    "eslint-config-next": "15.1.7",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "typescript": "^5.8.3"
+  }
+}
