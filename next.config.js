@@ -39,36 +39,9 @@ const nextConfig = {
 function getEnvironmentUrl() {
   const environment = process.env.ENVIRONMENT || "TEST";
 
-  switch (environment) {
-    case "PROD":
-      return {
-        baseUrl: "https://bifrost.wyzard.ai/api/v1",
-        owleryBaseUrl: "https://owlery.wyzard.ai/api/v1",
-        sdkUrl: "https://images.wyzard.ai/pt-sdkImport.js",
-        siteUrl: "https://copilot.wyzard.ai",
-      };
-    case "STAGING":
-      return {
-        baseUrl: "https://bifrost.wyzard.in/api/v1",
-        owleryBaseUrl: "https://owlery.wyzard.in/api/v1",
-        sdkUrl: "https://images.wyzard.ai/st-sdkImport.js",
-        siteUrl: "https://copilot.wyzard.in",
-      };
-    case "TEST":
-      return {
-        baseUrl: "https://bifrostuat.zenlabs.in/api/v1",
-        owleryBaseUrl: "https://owleryuat.zenlabs.in/api/v1",
-        sdkUrl: "https://images.wyzard.ai/st-sdkImport.js",
-        siteUrl: "https://copilotuat.zenlabs.in",
-      };
-    default:
-      return {
-        baseUrl: "https://bifrostuat.zenlabs.in/api/v1",
-        owleryBaseUrl: "https://owleryuat.zenlabs.in/api/v1",
-        sdkUrl: "https://images.wyzard.ai/st-sdkImport.js",
-        siteUrl: "https://copilotuat.zenlabs.in",
-      };
-  }
+  return {
+    baseUrl: "http://localhost:8080",
+  };
 }
 
 module.exports = nextConfig;

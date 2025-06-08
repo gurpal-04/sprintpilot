@@ -17,7 +17,7 @@ const DashboardLayout = ({ children }) => {
       <Topbar />
       <div className="flex flex-1 pt-16">
         <Sidebar />
-        <main className="flex-1 ml-20 flex flex-col h-screen bg-gray-900  text-gray-100 transition-colors duration-200">
+        <main className="flex-1 ml-20 flex flex-col h-[calc(100vh-64px)] bg-gray-900  text-gray-100 transition-colors duration-200">
           {children}
         </main>
       </div>

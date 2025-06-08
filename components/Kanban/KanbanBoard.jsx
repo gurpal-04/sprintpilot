@@ -1,100 +1,57 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { KanbanColumn } from "./KanbanColumn";
 import { TaskCard } from "./TaskCard";
+import { CreateTaskModal } from "@/components/ui/CreateTaskModal";
+import Modal from "../ui/Modal/Modal";
+import { TaskDetailView } from "@/components/TaskDetailView/TaskDetailView";
 
-const initialData = [
+const columnDefinitions = [
   {
-    id: "backlog",
-    title: "Backlog",
+    id: "todo",
+    title: "Todo",
     color: "from-slate-500 to-slate-600",
-    tasks: [
-      {
-        id: "1",
-        title: "Design System Updates",
-        description: "Update the design system with new components and tokens",
-        priority: "medium",
-        assignee: "Sarah Chen",
-        tags: ["Design", "UI/UX"],
-      },
-      {
-        id: "2",
-        title: "API Documentation",
-        description: "Write comprehensive API documentation for v2.0",
-        priority: "low",
-        assignee: "Mike Johnson",
-        tags: ["Documentation", "Backend"],
-      },
-    ],
   },
   {
     id: "in-progress",
     title: "In Progress",
     color: "from-amber-500 to-orange-500",
-    tasks: [
-      {
-        id: "3",
-        title: "User Authentication",
-        description: "Implement OAuth 2.0 authentication flow",
-        priority: "high",
-        assignee: "Alex Rivera",
-        tags: ["Backend", "Security"],
-      },
-      {
-        id: "4",
-        title: "Dashboard Analytics",
-        description: "Build real-time analytics dashboard",
-        priority: "medium",
-        assignee: "Emma Davis",
-        tags: ["Frontend", "Analytics"],
-      },
-    ],
   },
   {
     id: "review",
     title: "Review",
     color: "from-purple-500 to-violet-500",
-    tasks: [
-      {
-        id: "5",
-        title: "Mobile Responsiveness",
-        description: "Ensure all components work on mobile devices",
-        priority: "high",
-        assignee: "David Kim",
-        tags: ["Frontend", "Mobile"],
-      },
-    ],
   },
   {
     id: "done",
     title: "Done",
     color: "from-emerald-500 to-green-500",
-    tasks: [
-      {
-        id: "6",
-        title: "Project Setup",
-        description: "Initialize project structure and dependencies",
-        priority: "high",
-        assignee: "Sarah Chen",
-        tags: ["Setup", "DevOps"],
-      },
-      {
-        id: "7",
-        title: "Database Schema",
-        description: "Design and implement database schema",
-        priority: "medium",
-        assignee: "Mike Johnson",
-        tags: ["Database", "Backend"],
-      },
-    ],
   },
 ];
 
-export function KanbanBoard() {
-  const [columns, setColumns] = useState(initialData);
+export default function KanbanBoard({
+  tasks = [],
+  onTaskUpdate,
+  showPriority = true,
+}) {
+  const [columns, setColumns] = useState([]);
   const [draggedTask, setDraggedTask] = useState(null);
   const [draggedFrom, setDraggedFrom] = useState(null);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [selectedColumnId, setSelectedColumnId] = useState(null);
+  const [selectedTaskId, setSelectedTaskId] = useState(null);
+
+  useEffect(() => {
+    // Initialize columns with tasks organized by status
+    const organizedColumns = columnDefinitions.map((column) => ({
+      ...column,
+      tasks: tasks.filter(
+        (task) => (task.status || "todo").toLowerCase() === column.id
+      ),
+    }));
+    setColumns(organizedColumns);
+  }, [tasks]);
 
   const handleDragStart = (task, columnId) => {
     setDraggedTask(task);
@@ -105,73 +62,115 @@ export function KanbanBoard() {
     e.preventDefault();
   };
 
-  const handleDrop = (targetColumnId) => {
+  const handleDrop = async (targetColumnId) => {
     if (!draggedTask || !draggedFrom || draggedFrom === targetColumnId) {
       setDraggedTask(null);
       setDraggedFrom(null);
       return;
     }
 
-    setColumns((prevColumns) => {
-      const newColumns = prevColumns.map((column) => {
-        if (column.id === draggedFrom) {
-          return {
-            ...column,
-            tasks: column.tasks.filter((task) => task.id !== draggedTask.id),
-          };
-        }
-        if (column.id === targetColumnId) {
-          return {
-            ...column,
-            tasks: [...column.tasks, draggedTask],
-          };
-        }
-        return column;
+    console.log("draggedTask", draggedTask);
+    console.log("draggedFrom", draggedFrom);
+    console.log("targetColumnId", targetColumnId);
+
+    try {
+      // If onTaskUpdate prop exists, call it
+      if (onTaskUpdate) {
+        onTaskUpdate(draggedTask.id, { status: targetColumnId });
+      }
+
+      setColumns((prevColumns) => {
+        const newColumns = prevColumns.map((column) => {
+          if (column.id === draggedFrom) {
+            return {
+              ...column,
+              tasks: column.tasks.filter((task) => task.id !== draggedTask.id),
+            };
+          }
+          if (column.id === targetColumnId) {
+            return {
+              ...column,
+              tasks: [
+                ...column.tasks,
+                { ...draggedTask, status: targetColumnId },
+              ],
+            };
+          }
+          return column;
+        });
+        return newColumns;
       });
-      return newColumns;
-    });
+    } catch (error) {
+      console.error("Failed to update task status:", error);
+      // You might want to show an error toast/notification here
+    }
 
     setDraggedTask(null);
     setDraggedFrom(null);
   };
 
-  const addNewTask = (columnId) => {
-    const newTask = {
-      id: Date.now().toString(),
-      title: "New Task",
-      description: "Click to edit this task",
-      priority: "medium",
-      tags: [],
-    };
+  const handleAddTask = (columnId) => {
+    setSelectedColumnId(columnId);
+    setIsCreateModalOpen(true);
+  };
 
-    setColumns((prevColumns) =>
-      prevColumns.map((column) =>
-        column.id === columnId
-          ? { ...column, tasks: [...column.tasks, newTask] }
-          : column
-      )
-    );
+  const handleTaskClick = (task) => {
+    setSelectedTaskId(task.id);
   };
 
   return (
-    <div className="flex gap-3 overflow-x-auto p-6">
-      {columns.map((column) => (
-        <KanbanColumn
-          key={column.id}
-          column={column}
-          onDragOver={handleDragOver}
-          onDrop={() => handleDrop(column.id)}
-          onAddTask={() => addNewTask(column.id)}
+    <>
+      <div className="flex gap-3 overflow-x-auto p-6">
+        {columns.map((column) => (
+          <KanbanColumn
+            key={column.id}
+            column={column}
+            onDragOver={handleDragOver}
+            onDrop={() => handleDrop(column.id)}
+            onAddTask={() => handleAddTask(column.id)}
+          >
+            {column.tasks.map((task) => (
+              <TaskCard
+                key={task.id}
+                task={task}
+                onDragStart={() => handleDragStart(task, column.id)}
+                showPriority={showPriority}
+                onTitleClick={handleTaskClick}
+              />
+            ))}
+          </KanbanColumn>
+        ))}
+      </div>
+
+      <Modal
+        isOpen={isCreateModalOpen}
+        showCross={false}
+        className="bg-gray-900"
+        width="w-full max-w-3xl"
+        padding=""
+        onClose={() => setIsCreateModalOpen(false)}
+      >
+        <CreateTaskModal
+          isOpen={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}
+        />
+      </Modal>
+
+      {selectedTaskId && (
+        <Modal
+          isOpen={true}
+          showCross={true}
+          className="p-0"
+          width="w-full"
+          padding=""
+          onClose={() => setSelectedTaskId(null)}
         >
-          {column.tasks.map((task) => (
-            <TaskCard
-              key={task.id}
-              task={task}
-              onDragStart={() => handleDragStart(task, column.id)}
-            />
-          ))}
-        </KanbanColumn>
-      ))}
-    </div>
+          <TaskDetailView
+            taskId={selectedTaskId}
+            onClose={() => setSelectedTaskId(null)}
+          />
+        </Modal>
+      )}
+    </>
   );
 }

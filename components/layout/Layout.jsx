@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { store, persistor } from "@/store/store";
 import { PersistGate } from "redux-persist/integration/react";
 import DashboardLayout from "./DashboardLayout";
+import { TaskProvider } from "@/context/TaskContext";
 
 export default function Layout({ children }) {
   const [auth, setAuth] = useState(null);
@@ -30,16 +31,18 @@ export default function Layout({ children }) {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <>
-          {/* {auth ? (  */}
-          {/* // && onboardingDone ? ( */}
-          <DashboardLayout>{children}</DashboardLayout>
-          {/* // ) : (
+        <TaskProvider>
+          <>
+            {/* {auth ? (  */}
+            {/* // && onboardingDone ? ( */}
+            <DashboardLayout>{children}</DashboardLayout>
+            {/* // ) : (
           //   <DefaultLayout handleOnBoarding={handleOnBoarding}>
           //     {children}
           //   </DefaultLayout>
           // )} */}
-        </>
+          </>
+        </TaskProvider>
       </PersistGate>
     </Provider>
   );

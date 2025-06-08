@@ -1,5 +1,5 @@
 {
-  "name": "inferno",
+  "name": "sprintpilot",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -15,6 +15,7 @@
     "@iconify/react": "^6.0.0",
     "@reduxjs/toolkit": "^2.6.0",
     "@tailwindcss/typography": "^0.5.16",
+    "date-fns": "^4.1.0",
     "framer-motion": "^12.15.0",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.511.0",

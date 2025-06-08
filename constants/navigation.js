@@ -1,39 +1,27 @@
 export const navigationItems = [
   {
     href: "/epics",
-    icon: "mdi:company",
+    icon: "material-symbols:epic-outline",
     label: "Epics",
   },
   {
     href: "/tasks",
-    icon: "garden:customize-26",
+    icon: "material-symbols:task-outline",
     label: "Tasks",
   },
   {
     href: "/users",
-    icon: "carbon:email",
+    icon: "mdi:user-group",
     label: "Users",
   },
   {
     href: "/stories",
-    icon: "octicon:goal-24",
+    icon: "material-symbols:book-outline",
     label: "Stories",
   },
   {
-    href: null, // No direct link for parent menu
-    icon: "carbon:ibm-knowledge-catalog",
-    label: "IQ Sync",
-    submenu: [
-      {
-        href: "/knowledge-base",
-        icon: "carbon:document",
-        label: "Knowledge Base",
-      },
-      {
-        href: "/sitemap",
-        icon: "mdi:sitemap",
-        label: "Sitemap",
-      },
-    ],
+    href: "/sprints",
+    icon: "material-symbols:sprint",
+    label: "Sprints",
   },
 ];
