@@ -10,76 +10,23 @@ import {
 } from "lucide-react";
 import DeveloperCard from "./DeveloperCard";
 import AddEditDeveloperModal from "./AddEditDeveloperModal";
+import {
+  useGetAllDevelopersQuery,
+  useCreateDeveloperMutation,
+  useUpdateDeveloperMutation,
+  useDeleteDeveloperMutation,
+} from "../../store/slices/developers/developersApiSlice";
 
 const DevelopersView = () => {
-  const [developers, setDevelopers] = useState([
-    {
-      id: "1",
-      name: "Sarah Chen",
-      email: "sarah.chen@company.com",
-      designation: "Senior Frontend Developer",
-      experienceLevel: "Senior",
-      skills: ["React", "TypeScript", "Node.js", "AWS"],
-      currentTasks: 3,
-      availabilityStatus: "available",
-      joinedDate: "2022-03-15",
-    },
-    {
-      id: "2",
-      name: "Marcus Johnson",
-      email: "marcus.j@company.com",
-      designation: "Backend Engineer",
-      experienceLevel: "Mid",
-      skills: ["Python", "Django", "PostgreSQL", "Docker"],
-      currentTasks: 5,
-      availabilityStatus: "overloaded",
-      joinedDate: "2023-01-10",
-    },
-    {
-      id: "3",
-      name: "Emma Rodriguez",
-      email: "emma.r@company.com",
-      designation: "Full Stack Developer",
-      experienceLevel: "Senior",
-      skills: ["Vue.js", "Node.js", "MongoDB", "GraphQL"],
-      currentTasks: 2,
-      availabilityStatus: "available",
-      joinedDate: "2021-11-20",
-    },
-    {
-      id: "4",
-      name: "Alex Kim",
-      email: "alex.kim@company.com",
-      designation: "Junior Developer",
-      experienceLevel: "Junior",
-      skills: ["JavaScript", "React", "HTML/CSS"],
-      currentTasks: 1,
-      availabilityStatus: "available",
-      joinedDate: "2024-01-05",
-    },
-    {
-      id: "5",
-      name: "Jordan Taylor",
-      email: "jordan.t@company.com",
-      designation: "DevOps Engineer",
-      experienceLevel: "Lead",
-      skills: ["Kubernetes", "AWS", "Jenkins", "Docker"],
-      currentTasks: 0,
-      availabilityStatus: "on-leave",
-      joinedDate: "2020-06-12",
-    },
-    {
-      id: "6",
-      name: "Priya Patel",
-      email: "priya.p@company.com",
-      designation: "Mobile Developer",
-      experienceLevel: "Mid",
-      skills: ["React Native", "iOS", "Android", "Firebase"],
-      currentTasks: 4,
-      availabilityStatus: "overloaded",
-      joinedDate: "2022-09-08",
-    },
-  ]);
+  const {
+    data: developers = [],
+    isLoading,
+    error,
+    refetch,
+  } = useGetAllDevelopersQuery();
+  const [createDeveloper] = useCreateDeveloperMutation();
+  const [updateDeveloper] = useUpdateDeveloperMutation();
+  const [deleteDeveloper] = useDeleteDeveloperMutation();
 
   const [filters, setFilters] = useState({
     search: "",
@@ -136,30 +83,43 @@ const DevelopersView = () => {
     });
   }, [developers, filters]);
 
-  const handleAddDeveloper = (developerData) => {
-    const newDeveloper = {
-      ...developerData,
-      id: Date.now().toString(),
-    };
-    setDevelopers((prev) => [...prev, newDeveloper]);
-  };
-
-  const handleEditDeveloper = (developerData) => {
-    if (editingDeveloper) {
-      setDevelopers((prev) =>
-        prev.map((dev) =>
-          dev.id === editingDeveloper.id
-            ? { ...developerData, id: editingDeveloper.id }
-            : dev
-        )
-      );
-      setEditingDeveloper(null);
+  const handleAddDeveloper = async (developerData) => {
+    try {
+      await createDeveloper(developerData).unwrap();
+      await refetch();
+      setIsModalOpen(false);
+    } catch (err) {
+      console.error("Failed to create developer:", err);
+      // Handle error (show toast notification, etc.)
     }
   };
 
-  const handleDeleteDeveloper = (id) => {
+  const handleEditDeveloper = async (developerData) => {
+    if (editingDeveloper) {
+      try {
+        await updateDeveloper({
+          id: editingDeveloper.id,
+          ...developerData,
+        }).unwrap();
+        await refetch();
+        setEditingDeveloper(null);
+        setIsModalOpen(false);
+      } catch (err) {
+        console.error("Failed to update developer:", err);
+        // Handle error
+      }
+    }
+  };
+
+  const handleDeleteDeveloper = async (id) => {
     if (window.confirm("Are you sure you want to delete this developer?")) {
-      setDevelopers((prev) => prev.filter((dev) => dev.id !== id));
+      try {
+        await deleteDeveloper(id).unwrap();
+        await refetch();
+      } catch (err) {
+        console.error("Failed to delete developer:", err);
+        // Handle error
+      }
     }
   };
 
@@ -187,6 +147,32 @@ const DevelopersView = () => {
   };
 
   const statusCounts = getStatusCounts();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-[calc(100vh-64px)] bg-slate-900 text-white p-6 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <p className="text-slate-400">Loading developers...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-[calc(100vh-64px)] bg-slate-900 text-white p-6 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-red-500 text-xl mb-4">
+            Error loading developers
+          </div>
+          <p className="text-slate-400">
+            {error.message || "Please try again later"}
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-[calc(100vh-64px)] bg-slate-900 text-white p-6 overflow-y-auto relative">

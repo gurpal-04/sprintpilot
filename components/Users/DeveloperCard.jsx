@@ -2,6 +2,7 @@ import React from "react";
 import { User, Edit, Trash2, Mail, Calendar, Code, Users } from "lucide-react";
 
 const DeveloperCard = ({ developer, onEdit, onDelete }) => {
+  console.log("developer", developer);
   const getStatusColor = (status) => {
     switch (status) {
       case "available":
@@ -103,11 +104,13 @@ const DeveloperCard = ({ developer, onEdit, onDelete }) => {
         <div className="flex items-center justify-between text-sm">
           <div className="flex items-center text-slate-400">
             <Users className="w-4 h-4 mr-1" />
-            <span>{developer.currentTasks} active tasks</span>
+            <span>{developer.assigned_tasks?.length} active tasks</span>
           </div>
           <div className="flex items-center text-slate-400">
             <Calendar className="w-4 h-4 mr-1" />
-            <span>Since {developer.joinedDate}</span>
+            <span>
+              Since {new Date(developer.joined_date).toLocaleDateString()}
+            </span>
           </div>
         </div>
 
