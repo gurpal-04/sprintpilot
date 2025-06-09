@@ -39,6 +39,13 @@ const nextConfig = {
 function getEnvironmentUrl() {
   const environment = process.env.ENVIRONMENT || "TEST";
 
+  switch (environment) {
+    case "PROD":
+      return {
+        baseUrl: "https://autonomous-scrum-master.onrender.com",
+      };
+  }
+
   return {
     baseUrl: "http://localhost:8080",
   };
