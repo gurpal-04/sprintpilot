@@ -27,15 +27,15 @@ const Sidebar = () => {
 
   return (
     <aside
-      className={`bg-gray-900 shadow-sm transition-all duration-300 ease-in-out
-        h-[calc(100vh-64px)] fixed overflow-y-auto scrollbar-hidden z-[100]
-        ${isExpanded ? "w-60" : "w-[5rem]"}`}
+      className={`bg-gradient-to-b from-gray-900 to-gray-800 shadow-xl transition-all duration-300 ease-in-out
+        h-[calc(100vh-64px)] fixed overflow-y-auto scrollbar-hidden z-[100] backdrop-blur-sm
+        ${isExpanded ? "w-64" : "w-[4.5rem]"}`}
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
     >
-      <div className="w-full h-full bg-gray-900 border-r border-gray-700 flex flex-col justify-between">
-        <nav className="p-4">
-          <ul className="flex flex-col gap-y-2">
+      <div className="w-full h-full border-r border-gray-700/50 flex flex-col justify-between">
+        <nav className="p-3">
+          <ul className="flex flex-col gap-y-1">
             {navigationItems.map((item, index) => {
               const isActive = item?.submenu
                 ? item.submenu.some((subItem) =>
@@ -51,32 +51,32 @@ const Sidebar = () => {
                   {hasSubmenu ? (
                     <div className="flex flex-col">
                       <div
-                        className={`flex gap-3 items-center p-3 text-secondary-600 rounded-md transition-colors h-11 overflow-hidden relative cursor-pointer
+                        className={`flex gap-3 items-center p-3 rounded-lg transition-all duration-200 h-11 overflow-hidden relative cursor-pointer group
                           ${
                             isActive
-                              ? "bg-secondary-120"
-                              : "hover:bg-secondary-50"
+                              ? "bg-primary-500/10 text-primary-500"
+                              : "hover:bg-gray-800/80 text-gray-400 hover:text-gray-200"
                           }`}
                         onClick={() => toggleSubmenu(index)}
                       >
                         <Icon
                           icon={item?.icon}
-                          className={`w-5 h-5 ${
-                            isActive ? "text-primary-500" : "text-secondary-400"
+                          className={`w-5 h-5 transition-transform duration-200 ${
+                            isActive
+                              ? "text-primary-500"
+                              : "text-gray-400 group-hover:text-gray-200"
                           }`}
                         />
                         {isExpanded && (
                           <div
-                            className={`flex justify-between items-center w-36 absolute left-12 ${
-                              isExpanded
-                                ? "opacity-100 translate-x-0"
-                                : "opacity-0 -translate-x-2"
-                            }`}
+                            className={`flex justify-between items-center w-40 absolute left-12 transition-all duration-200
+                              ${
+                                isExpanded
+                                  ? "opacity-100 translate-x-0"
+                                  : "opacity-0 -translate-x-2"
+                              }`}
                           >
-                            <span
-                              className={`text-nowrap transition-opacity duration-300 ease-in-out whitespace-nowrap 
-                                `}
-                            >
+                            <span className="text-sm font-medium whitespace-nowrap">
                               {item?.label}
                             </span>
                             <Icon
@@ -85,7 +85,9 @@ const Sidebar = () => {
                                   ? "mdi:chevron-up"
                                   : "mdi:chevron-down"
                               }
-                              className="w-4 h-4 text-secondary-400 absolute right-3"
+                              className={`w-4 h-4 transition-transform duration-200 ${
+                                isSubmenuExpanded ? "rotate-180" : ""
+                              }`}
                             />
                           </div>
                         )}
@@ -93,31 +95,31 @@ const Sidebar = () => {
 
                       {/* Submenu items */}
                       {isExpanded && isSubmenuExpanded && (
-                        <ul className="ml-4 mt-1 flex flex-col gap-y-1">
+                        <ul className="ml-4 mt-1 flex flex-col gap-y-1 animate-fadeIn">
                           {item.submenu.map((subItem, subIndex) => {
                             const isSubItemActive = pathname === subItem.href;
                             return (
                               <li key={`${index}-${subIndex}`}>
                                 <Link
                                   href={subItem?.href}
-                                  className={`flex gap-3 items-center p-2 text-secondary-600 rounded-md transition-colors h-9 overflow-hidden relative
+                                  className={`flex gap-3 items-center p-2 rounded-lg transition-all duration-200 h-9 overflow-hidden relative group
                                     ${
                                       isSubItemActive
-                                        ? "bg-secondary-120"
-                                        : "hover:bg-secondary-50"
+                                        ? "bg-primary-500/10 text-primary-500"
+                                        : "hover:bg-gray-800/80 text-gray-400 hover:text-gray-200"
                                     }`}
                                 >
                                   <Icon
                                     icon={subItem?.icon}
-                                    className={`w-4 h-4 ${
+                                    className={`w-4 h-4 transition-colors duration-200 ${
                                       isSubItemActive
                                         ? "text-primary-500"
-                                        : "text-secondary-400"
+                                        : "text-gray-400 group-hover:text-gray-200"
                                     }`}
                                   />
                                   {isExpanded && (
                                     <span
-                                      className={`text-nowrap transition-opacity duration-300 ease-in-out whitespace-nowrap absolute left-10 
+                                      className={`text-sm font-medium transition-all duration-200 whitespace-nowrap absolute left-10
                                         ${
                                           isExpanded
                                             ? "opacity-100 translate-x-0"
@@ -137,22 +139,24 @@ const Sidebar = () => {
                   ) : (
                     <Link
                       href={item?.href}
-                      className={`flex gap-3 items-center p-3 text-secondary-600 rounded-md transition-colors h-11 overflow-hidden relative
+                      className={`flex gap-3 items-center p-3 rounded-lg transition-all duration-200 h-11 overflow-hidden relative group
                         ${
                           isActive
-                            ? "bg-secondary-120"
-                            : "hover:bg-secondary-50"
+                            ? "bg-primary-500/10 text-primary-500"
+                            : "hover:bg-gray-800/80 text-gray-400 hover:text-gray-200"
                         }`}
                     >
                       <Icon
                         icon={item?.icon}
-                        className={`w-5 h-5 ${
-                          isActive ? "text-primary-500" : "text-secondary-400"
+                        className={`w-5 h-5 transition-colors duration-200 ${
+                          isActive
+                            ? "text-primary-500"
+                            : "text-gray-400 group-hover:text-gray-200"
                         }`}
                       />
                       {isExpanded && (
                         <span
-                          className={`text-nowrap transition-opacity duration-300 ease-in-out whitespace-nowrap absolute left-12 
+                          className={`text-sm font-medium transition-all duration-200 whitespace-nowrap absolute left-12
                             ${
                               isExpanded
                                 ? "opacity-100 translate-x-0"

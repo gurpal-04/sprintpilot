@@ -1,5 +1,8 @@
+"use client";
+import DevelopersView from "@/components/Users/DevelopersView";
+
 const UsersPage = () => {
-  return <div>UsersPage</div>;
+  return <DevelopersView />;
 };
 
 export default UsersPage;
